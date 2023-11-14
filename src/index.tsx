@@ -1,9 +1,9 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <div>oi</div>
+    <div>oie</div>
   </React.StrictMode>,
-  document.getElementById('root'),
+  document.getElementById("root")
 );
