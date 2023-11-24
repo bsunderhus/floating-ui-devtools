@@ -2,19 +2,19 @@ import React from 'react';
 import { useTheme } from '../hooks/useTheme';
 
 import { FluentProvider, webDarkTheme, webLightTheme } from '@fluentui/react-components';
-import { PdtDataProvider, usePdtDataContextValue } from '../contexts/PdtData';
+import { PdtSerializedDataProvider, usePdtSerializedDataContextValue } from '../contexts/PdtSerializedData';
 import { SidePanel } from './SidePanel';
 
 export const DevToolsShell: React.FC = props => {
   const { rootStyle, theme } = useTheme();
-  const PdtDataContextValue = usePdtDataContextValue();
+  const serializedDataContextValue = usePdtSerializedDataContextValue();
 
   return (
-    <PdtDataProvider value={PdtDataContextValue}>
+    <PdtSerializedDataProvider value={serializedDataContextValue}>
       <FluentProvider style={rootStyle} theme={theme === 'dark' ? webDarkTheme : webLightTheme}>
         {props.children}
         <SidePanel />
       </FluentProvider>
-    </PdtDataProvider>
+    </PdtSerializedDataProvider>
   );
 };

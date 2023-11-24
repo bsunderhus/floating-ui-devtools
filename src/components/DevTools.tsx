@@ -1,16 +1,11 @@
-import { ContainerDataView } from './ContainerDataView';
+import { SerializedDataView } from './SerializedDataView';
 import { UnsupportedElementMessage } from './UnsupportedElementMessage';
-import { usePdtData } from '../contexts/PdtData';
+import { usePdtSerializedData } from '../contexts/PdtSerializedData';
 
 export const DevTools = () => {
-  const [pdtData] = usePdtData();
-  if (pdtData === null) {
+  const [serializedData] = usePdtSerializedData();
+  if (serializedData === null) {
     return <UnsupportedElementMessage />;
   }
-  switch (pdtData.type) {
-    case 'container':
-      return <ContainerDataView data={pdtData} />;
-    default:
-      return <UnsupportedElementMessage />;
-  }
+  return <SerializedDataView serializedData={serializedData} />;
 };

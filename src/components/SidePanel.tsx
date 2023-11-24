@@ -1,7 +1,7 @@
 import { Button, Tooltip, makeStyles, shorthands, tokens } from '@fluentui/react-components';
 import { ArrowReset24Filled } from '@fluentui/react-icons';
 import React from 'react';
-import { usePdtData } from '../contexts/PdtData';
+import { usePdtSerializedData } from '../contexts/PdtSerializedData';
 
 const useStyles = makeStyles({
   aside: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 
 export const SidePanel = React.memo(() => {
   const styles = useStyles();
-  const [, recalculatePdtData] = usePdtData();
+  const [, recalculatePdtData] = usePdtSerializedData();
   return (
     <aside className={styles.aside}>
       <Tooltip relationship="label" content="Reload">

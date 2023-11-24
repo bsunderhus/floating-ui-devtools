@@ -11,7 +11,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.5.3",
+    "@floating-ui/dom": "1.2.0",
     "@fluentui/react-components": "^9.41.0",
     "@fluentui/react-icons": "^2.0.223",
     "@fluentui/react-positioning": "^9.10.1",

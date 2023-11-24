@@ -1,75 +1,8 @@
-import { POSITIONING_DEV_TOOLS } from './constants';
+import { PDT_CONTROLLER } from './constants';
 
-export function inspectContainer() {
+export function inspect<Key extends string>(key: Key) {
   chrome.devtools.inspectedWindow.eval(
-    `
-    {
-      const window = $0.ownerDocument.defaultView
-      const positioningDevTools = window['${POSITIONING_DEV_TOOLS}'];
-      inspect(positioningDevTools.getContainer());
-    }
-    undefined;
-  `,
-    {},
-    console.log,
-  );
-}
-
-export function inspectTarget() {
-  chrome.devtools.inspectedWindow.eval(
-    `
-    {
-      const window = $0.ownerDocument.defaultView
-      const positioningDevTools = window['${POSITIONING_DEV_TOOLS}'];
-      inspect(positioningDevTools.getTarget());
-    }
-    undefined;
-  `,
-    {},
-    console.log,
-  );
-}
-
-export function inspectScrollParent(index: number) {
-  chrome.devtools.inspectedWindow.eval(
-    `
-    {
-      const window = $0.ownerDocument.defaultView
-      const positioningDevTools = window['${POSITIONING_DEV_TOOLS}'];
-      inspect(positioningDevTools.getScrollParentByIndex(${index}));
-    }
-    undefined;
-  `,
-    {},
-    console.log,
-  );
-}
-
-export function inspectOverflowBoundary(index: number) {
-  chrome.devtools.inspectedWindow.eval(
-    `
-    {
-      const window = $0.ownerDocument.defaultView
-      const positioningDevTools = window['${POSITIONING_DEV_TOOLS}'];
-      inspect(positioningDevTools.getOverflowBoundaryByIndex(${index}));
-    }
-    undefined;
-  `,
-    {},
-    console.log,
-  );
-}
-
-export function inspectFlipBoundary(index: number) {
-  chrome.devtools.inspectedWindow.eval(
-    `
-    {
-      const window = $0.ownerDocument.defaultView
-      const positioningDevTools = window['${POSITIONING_DEV_TOOLS}'];
-      inspect(positioningDevTools.getFlipBoundaryByIndex(${index}));
-    }
-    undefined;
-  `,
+    `void inspect($0?.ownerDocument?.defaultView?.['${PDT_CONTROLLER}']?.getReference('${key}'));`,
     {},
     console.log,
   );

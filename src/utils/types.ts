@@ -1,40 +1,37 @@
-import type { Coords, ElementRects, MiddlewareData, ReferenceElement, Strategy } from '@floating-ui/dom';
-import { POSITIONING_DEV_TOOLS } from './constants';
+import { PDT_CONTROLLER, PDT_ELEMENT_METADATA } from './constants';
 
-export type ContainerData = {
-  type: 'container';
-  options: object;
-  initialPlacement: { position: string; alignment?: string };
-  placement: { position: string; alignment?: string };
-  strategy: Strategy;
-  middlewareData: MiddlewareData;
-  coords: Coords;
-  rects: ElementRects;
-  flipBoundariesAmount: number;
-  overflowBoundariesAmount: number;
-  scrollParentsAmount: number;
-};
+export type PdtRefs<Key extends string = string> = Map<Key, HTMLElement>;
 
-export type Data = ContainerData;
+export type PdtElement = HTMLElement & PdtElementMetadata;
 
-export type Refs = {
-  container: HTMLElement;
-  target: ReferenceElement;
-  scrollParents: HTMLElement[];
-  flipBoundaries: HTMLElement[];
-  overflowBoundaries: HTMLElement[];
-};
+/**
+ * This has to be serializable
+ */
+export type PdtSerializedData = { payload: object; referencesKeys: string[] };
 
-export type Element = {
-  [POSITIONING_DEV_TOOLS]: {
-    state: Data;
-    refs: Refs;
+export type PdtElementMetadata = {
+  [PDT_ELEMENT_METADATA]: {
+    serializedData: PdtSerializedData;
+    references: PdtRefs;
   };
 };
 
-export type Container = {
-  [POSITIONING_DEV_TOOLS]: {
-    state: ContainerData;
-    refs: Refs;
-  };
+export type PdtController<Key extends string = string> = {
+  getReference(key: Key): HTMLElement | null;
+  withdraw(): void;
+  /**
+   * sets the current inspected element.
+   * 1. if the element is a floating container a reference to that element will be preserved.
+   * 2. if the element is a valid reference then return container's data
+   * 3. if the element is not a valid reference then withdraw reference and return null
+   *
+   * @param element element that was selected
+   */
+  select(element?: HTMLElement | null): PdtSerializedData | null;
 };
+
+declare global {
+  interface Window {
+    [PDT_CONTROLLER]: PdtController;
+  }
+}
