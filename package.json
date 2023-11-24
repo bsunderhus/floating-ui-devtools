@@ -1,12 +1,11 @@
 {
-  "name": "positioning-devtools",
-  "private": true,
-  "version": "0.0.0",
+  "name": "floating-ui-devtools",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite build --watch",
     "build": "tsc && vite build",
-    "build:watch": "vite build --watch",
+    "build:lib": "vite build --config vite.lib.config.ts",
     "type-check": "tsc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
@@ -33,8 +32,22 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "typescript": "5.0.4",
+    "vite": "^4.4.5",
+    "vite-plugin-dts": "^3.6.3"
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@4.0.2",
+  "files": [
+    "lib"
+  ],
+  "main": "./lib/floating-ui-devtools.cjs",
+  "module": "./lib/floating-ui-devtools.js",
+  "typings": "./lib/floating-ui-devtools.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/floating-ui-devtools.d.ts",
+      "import": "./lib/floating-ui-devtools.js",
+      "require": "./lib/floating-ui-devtools.umd.cjs"
+    }
+  }
 }

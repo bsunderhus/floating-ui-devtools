@@ -1,0 +1,3 @@
+export const CONTROLLER = '__FUI_CONTROLLER__';
+
+export const ELEMENT_METADATA = '__FUI_ELEMENT_METADATA__';

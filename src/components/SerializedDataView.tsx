@@ -5,10 +5,10 @@ import { Button, makeStyles, shorthands } from '@fluentui/react-components';
 import { useTheme } from '../hooks/useTheme';
 import { tokens } from '../utils/tokens';
 import { Eye20Filled } from '@fluentui/react-icons';
-import { PdtSerializedData } from '../utils/types';
+import { SerializedData } from '../lib/types';
 
 export type SerializedDataViewProps = {
-  serializedData: PdtSerializedData;
+  serializedData: SerializedData;
 };
 
 const useStyles = makeStyles({

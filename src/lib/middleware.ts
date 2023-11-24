@@ -1,12 +1,12 @@
 import { Middleware, MiddlewareArguments } from '@floating-ui/dom';
-import { PdtElementMetadata, PdtRefs } from './types';
-import { PDT_CONTROLLER, PDT_ELEMENT_METADATA } from './constants';
-import { createPdtController } from './controller';
+import { ElementMetadata, Refs } from './types';
+import { CONTROLLER, ELEMENT_METADATA } from './constants';
+import { createController } from './controller';
 import { serialize } from './methods';
 
-export const pdtMiddleware = (
+export const middleware = (
   targetDocument: Document,
-  callback: (state: MiddlewareArguments) => { data: object; references: PdtRefs },
+  callback: (state: MiddlewareArguments) => { data: object; references: Refs },
 ): Middleware => {
   if (!targetDocument.defaultView) {
     return {
@@ -14,15 +14,15 @@ export const pdtMiddleware = (
       fn: () => ({}),
     };
   }
-  if (!targetDocument.defaultView[PDT_CONTROLLER]) {
-    targetDocument.defaultView[PDT_CONTROLLER] = createPdtController();
+  if (!targetDocument.defaultView[CONTROLLER]) {
+    targetDocument.defaultView[CONTROLLER] = createController();
   }
   return {
     name: 'positioningDevTools:active',
     fn: state => {
       const { data: payload, references } = callback(state);
-      Object.assign<HTMLElement, PdtElementMetadata>(state.elements.floating, {
-        [PDT_ELEMENT_METADATA]: {
+      Object.assign<HTMLElement, ElementMetadata>(state.elements.floating, {
+        [ELEMENT_METADATA]: {
           serializedData: serialize({ payload, referencesKeys: Array.from(references.keys()) }),
           references,
         },

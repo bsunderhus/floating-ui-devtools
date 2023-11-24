@@ -1,9 +1,9 @@
 import { SerializedDataView } from './SerializedDataView';
 import { UnsupportedElementMessage } from './UnsupportedElementMessage';
-import { usePdtSerializedData } from '../contexts/PdtSerializedData';
+import { useSerializedData } from '../contexts/SerializedData';
 
 export const DevTools = () => {
-  const [serializedData] = usePdtSerializedData();
+  const [serializedData] = useSerializedData();
   if (serializedData === null) {
     return <UnsupportedElementMessage />;
   }
