@@ -1,5 +1,6 @@
 import { getElementSerializedData, getElementRefs, isElement, isElementRef } from './methods';
 import { Controller, Element } from './types';
+import { isHTMLElement } from '@fluentui/react-utilities';
 
 export function createController(): Controller {
   let element: Element | null = null;
@@ -18,7 +19,8 @@ export function createController(): Controller {
       return null;
     },
     getReference(key) {
-      return element ? getElementRefs(element).get(key) ?? null : null;
+      const reference = element && getElementRefs(element)[key];
+      return isHTMLElement(reference) ? reference : null;
     },
   };
   return controller;

@@ -3,10 +3,10 @@ import { ELEMENT_METADATA } from './constants';
 
 export const isElement = <E extends Element>(element: unknown): element is E =>
   Boolean(typeof element === 'object' && element && ELEMENT_METADATA in element) &&
-  Array.from<unknown>(getElementRefs(element as E).values()).includes(element);
+  Object.values<unknown>(getElementRefs(element as E)).includes(element);
 
 export const isElementRef = (element: Element, referredElement: unknown) =>
-  Array.from<unknown>(getElementRefs(element).values()).includes(referredElement);
+  Object.values<unknown>(getElementRefs(element)).includes(referredElement);
 
 export const getElementRefs = <E extends Element>(element: E): E[typeof ELEMENT_METADATA]['references'] =>
   element[ELEMENT_METADATA].references;

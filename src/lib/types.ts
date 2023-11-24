@@ -1,6 +1,7 @@
+import { ReferenceElement } from '@floating-ui/dom';
 import { CONTROLLER, ELEMENT_METADATA } from './constants';
 
-export type Refs<Key extends string = string> = Map<Key, HTMLElement>;
+export type Refs<Key extends string = string> = Record<Key, ReferenceElement>;
 
 export type Element = HTMLElement & ElementMetadata;
 

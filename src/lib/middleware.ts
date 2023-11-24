@@ -4,10 +4,7 @@ import { CONTROLLER, ELEMENT_METADATA } from './constants';
 import { createController } from './controller';
 import { serialize } from './methods';
 
-export const middleware = (
-  targetDocument: Document,
-  callback: (state: MiddlewareArguments) => { data: object; references: Refs },
-): Middleware => {
+export const middleware = (targetDocument: Document, callback = defaultCallback): Middleware => {
   if (!targetDocument.defaultView) {
     return {
       name: 'positioningDevTools:idle',
@@ -23,11 +20,22 @@ export const middleware = (
       const { data: payload, references } = callback(state);
       Object.assign<HTMLElement, ElementMetadata>(state.elements.floating, {
         [ELEMENT_METADATA]: {
-          serializedData: serialize({ payload, referencesKeys: Array.from(references.keys()) }),
+          serializedData: serialize({ payload, referencesKeys: Object.keys(references) }),
           references,
         },
       });
       return {};
+    },
+  };
+};
+
+const defaultCallback = (state: MiddlewareArguments): { data: object; references: Refs } => {
+  const { elements, ...data } = state;
+  return {
+    data,
+    references: {
+      floating: elements.floating,
+      reference: elements.reference,
     },
   };
 };
