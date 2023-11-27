@@ -12,20 +12,19 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@floating-ui/core": "^1.2.0",
-    "@floating-ui/dom": "^1.2.0",
-    "@floating-ui/react": "^0.26.2",
-    "@fluentui/react-components": "^9.41.0",
-    "@fluentui/react-icons": "^2.0.223",
-    "@fluentui/react-positioning": "^9.10.1",
-    "@fluentui/react-utilities": "^9.15.2",
-    "@griffel/react": "^1.5.18",
+    "@floating-ui/core": "1.2.0",
+    "@floating-ui/dom": "1.2.0",
+    "@fluentui/react-components": "9.41.0",
+    "@fluentui/react-icons": "2.0.223",
+    "@fluentui/react-utilities": "9.15.2",
+    "@griffel/react": "1.5.18",
     "react": "^17",
     "react-dom": "^17",
-    "react-json-view": "^1.21.3",
+    "react-json-view": "1.21.3",
     "scheduler": "0.20.0"
   },
   "devDependencies": {
+    "@floating-ui/react": "^0.26.2",
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-interactions": "^7.5.3",
     "@storybook/addon-links": "^7.5.3",
