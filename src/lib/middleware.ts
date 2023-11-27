@@ -1,11 +1,15 @@
-import { MiddlewareState } from '@floating-ui/dom';
+import { MiddlewareState } from '@floating-ui/core';
 import { injectController } from './controller';
 import { assignMetadata, serializable } from './methods';
 
 export const middleware = (targetDocument: Document) => {
   return {
     name: 'positioningDevTools:active',
-    fn: <State extends MiddlewareState>({ elements, platform, ...state }: State) => {
+    fn: <State extends Pick<MiddlewareState, 'platform'> & { elements: { floating: HTMLElement } }>({
+      elements,
+      platform,
+      ...state
+    }: State) => {
       injectController(targetDocument);
       assignMetadata(elements.floating, {
         type: 'middleware',
