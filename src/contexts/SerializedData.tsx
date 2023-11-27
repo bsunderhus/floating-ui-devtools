@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { CONTROLLER } from '../lib/constants';
-import { SerializedData } from '../lib/types';
+import { CONTROLLER, ELEMENT_METADATA } from '../lib/constants';
+import { Metadata } from '../lib/types';
 
-export type SerializedDataContextValue = [serializedData: SerializedData | null, recalculateData: () => void];
+export type SerializedDataContextValue = [
+  serializedData: Metadata['serializedData'] | null,
+  recalculateData: () => void,
+];
 
 // eslint-disable-next-line react-refresh/only-export-components
 const SerializedDataContext = React.createContext<SerializedDataContextValue | null>(null);
@@ -18,11 +21,11 @@ export function useSerializedData() {
 }
 
 export function useSerializedDataContextValue(): SerializedDataContextValue {
-  const [serializedData, setSerializedData] = React.useState<SerializedData | null>(null);
+  const [serializedData, setSerializedData] = React.useState<Metadata['serializedData'] | null>(null);
 
   const recalculateSerializedData = React.useCallback(() => {
-    chrome.devtools.inspectedWindow.eval<SerializedData | null | undefined>(
-      `$0?.ownerDocument?.defaultView?.['${CONTROLLER}']?.select($0)`,
+    chrome.devtools.inspectedWindow.eval<Metadata['serializedData'] | null | undefined>(
+      `$0?.ownerDocument?.defaultView?.['${CONTROLLER}']?.select($0)?.['${ELEMENT_METADATA}']?.serializedData;`,
       {},
       (nextSerializedData = null, error) => {
         console.log(nextSerializedData, error);

@@ -1,11 +1,16 @@
-import { SerializedDataView } from './SerializedDataView';
 import { UnsupportedElementMessage } from './UnsupportedElementMessage';
 import { useSerializedData } from '../contexts/SerializedData';
+import { MiddlewareSerializedDataView } from './MiddlewareSerializedDataView';
 
 export const DevTools = () => {
   const [serializedData] = useSerializedData();
   if (serializedData === null) {
     return <UnsupportedElementMessage />;
   }
-  return <SerializedDataView serializedData={serializedData} />;
+  switch (serializedData.type) {
+    case 'middleware':
+      return <MiddlewareSerializedDataView serializedData={serializedData} />;
+    default:
+      return <UnsupportedElementMessage />;
+  }
 };

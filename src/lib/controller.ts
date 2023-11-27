@@ -1,27 +1,36 @@
-import { getElementSerializedData, getElementRefs, isElement, isElementRef } from './methods';
-import { Controller, Element } from './types';
-import { isHTMLElement } from '@fluentui/react-utilities';
+import { CONTROLLER } from './constants';
+import { getElementMetadata, isElementWithMetadata } from './methods';
+import { Controller } from './types';
 
-export function createController(): Controller {
-  let element: Element | null = null;
+export const createController = (): Controller => {
   const controller: Controller = {
-    withdraw() {
-      element = null;
-    },
-    select(selectedElement) {
-      if (isElement(selectedElement)) {
-        element = selectedElement;
+    selectedElement: null,
+    select: (selectedElement: HTMLElement | null) => {
+      if (isElementWithMetadata(selectedElement)) {
+        controller.selectedElement = selectedElement;
+        return controller.selectedElement;
       }
-      if (element && isElementRef(element, selectedElement)) {
-        return getElementSerializedData(element);
+      if (controller.selectedElement) {
+        const metadata = getElementMetadata(controller.selectedElement);
+        if (metadata.type === 'middleware' && Object.values<unknown>(metadata.references).includes(selectedElement)) {
+          return controller.selectedElement;
+        }
       }
       controller.withdraw();
-      return null;
+      return controller.selectedElement;
     },
-    getReference(key) {
-      const reference = element && getElementRefs(element)[key];
-      return isHTMLElement(reference) ? reference : null;
+    withdraw: () => {
+      controller.selectedElement = null;
     },
   };
   return controller;
-}
+};
+
+export const injectController = (targetDocument: Document) => {
+  if (!targetDocument.defaultView) {
+    return;
+  }
+  if (!targetDocument.defaultView[CONTROLLER]) {
+    targetDocument.defaultView[CONTROLLER] = createController();
+  }
+};

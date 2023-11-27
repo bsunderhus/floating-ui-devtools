@@ -12,7 +12,8 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@floating-ui/dom": "1.2.0",
+    "@floating-ui/core": "^1.2.0",
+    "@floating-ui/dom": "^1.2.0",
     "@floating-ui/react": "^0.26.2",
     "@fluentui/react-components": "^9.41.0",
     "@fluentui/react-icons": "^2.0.223",

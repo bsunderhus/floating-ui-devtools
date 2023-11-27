@@ -5,10 +5,10 @@ import { Button, makeStyles, shorthands } from '@fluentui/react-components';
 import { useTheme } from '../hooks/useTheme';
 import { tokens } from '../utils/tokens';
 import { Eye20Filled } from '@fluentui/react-icons';
-import { SerializedData } from '../lib/types';
+import { Metadata } from '../lib/types';
 
-export type SerializedDataViewProps = {
-  serializedData: SerializedData;
+export type MiddlewareSerializedDataViewProps = {
+  serializedData: Extract<Metadata, { type: 'middleware' }>['serializedData'];
 };
 
 const useStyles = makeStyles({
@@ -46,8 +46,8 @@ const useStyles = makeStyles({
   },
 });
 
-export const SerializedDataView = React.memo(
-  ({ serializedData: { referencesKeys: refKeys, payload } }: SerializedDataViewProps) => {
+export const MiddlewareSerializedDataView = React.memo(
+  ({ serializedData: { type, references, ...payload } }: MiddlewareSerializedDataViewProps) => {
     const styles = useStyles();
     const { theme: themeType } = useTheme();
     const theme: ThemeKeys = themeType === 'dark' ? 'monokai' : 'rjv-default';
@@ -77,7 +77,7 @@ export const SerializedDataView = React.memo(
           );
         })}
         <div className={styles.buttonGroup}>
-          {Array.from(refKeys, reference => (
+          {Array.from(references, reference => (
             <div key={reference} className={styles.buttonContainer}>
               <span className={styles.propertyKey}>{reference} :</span>{' '}
               <Button

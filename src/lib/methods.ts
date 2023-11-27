@@ -1,38 +1,35 @@
-import { Element } from './types';
+import { ElementMetadata, ElementWithMetadata, Metadata } from './types';
 import { ELEMENT_METADATA } from './constants';
 
-export const isElement = <E extends Element>(element: unknown): element is E =>
-  Boolean(typeof element === 'object' && element && ELEMENT_METADATA in element) &&
-  Object.values<unknown>(getElementRefs(element as E)).includes(element);
+export const isElementWithMetadata = (element: unknown): element is ElementWithMetadata =>
+  Boolean(typeof element === 'object' && element && ELEMENT_METADATA in element);
 
-export const isElementRef = (element: Element, referredElement: unknown) =>
-  Object.values<unknown>(getElementRefs(element)).includes(referredElement);
+export const getElementMetadata = (element: ElementWithMetadata): Metadata => element?.[ELEMENT_METADATA];
 
-export const getElementRefs = <E extends Element>(element: E): E[typeof ELEMENT_METADATA]['references'] =>
-  element[ELEMENT_METADATA].references;
-
-export const getElementSerializedData = <E extends Element>(element: E): E[typeof ELEMENT_METADATA]['serializedData'] =>
-  element[ELEMENT_METADATA].serializedData;
+export const assignMetadata = <O extends object>(object: O, metadata: Metadata): O & ElementMetadata =>
+  Object.assign<O, ElementMetadata>(object, {
+    [ELEMENT_METADATA]: metadata,
+  });
 
 /**
  * Ensures a value is serialized,
  * by only allowing simple objects/array
  * or objects who complies the `toString` signature
  */
-export const serialize = <V>(value: V): V =>
+export const serializable = <O extends object>(object: O): O =>
   JSON.parse(
-    JSON.stringify(value, (_, subValue) => {
+    JSON.stringify(object, (_, value) => {
       if (
-        typeof subValue === 'object' &&
-        subValue &&
-        Object.getPrototypeOf(subValue) !== Object.prototype &&
-        Object.getPrototypeOf(subValue) !== Array.prototype
+        typeof value === 'object' &&
+        value &&
+        Object.getPrototypeOf(value) !== Object.prototype &&
+        Object.getPrototypeOf(value) !== Array.prototype
       ) {
-        if ('toString' in subValue) {
-          return subValue.toString();
+        if ('toString' in value) {
+          return value.toString();
         }
         return undefined;
       }
-      return subValue;
+      return value;
     }),
   );
