@@ -1,4 +1,4 @@
-import { MiddlewareArguments as MiddlewareState } from '@floating-ui/core';
+import { MiddlewareState } from '@floating-ui/dom';
 import { injectController } from './controller';
 import { assignMetadata, serializable } from './methods';
 

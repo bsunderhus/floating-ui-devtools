@@ -1825,7 +1825,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/core@npm:^1.2.0, @floating-ui/core@npm:^1.4.2":
+"@floating-ui/core@npm:^1.4.2":
   version: 1.5.0
   resolution: "@floating-ui/core@npm:1.5.0"
   dependencies:
@@ -1834,7 +1834,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/dom@npm:^1.2.0, @floating-ui/dom@npm:^1.5.1":
+"@floating-ui/dom@npm:^1.2.0, @floating-ui/dom@npm:^1.5.1, @floating-ui/dom@npm:^1.5.3":
   version: 1.5.3
   resolution: "@floating-ui/dom@npm:1.5.3"
   dependencies:
@@ -7792,8 +7792,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "floating-ui-devtools@workspace:."
   dependencies:
-    "@floating-ui/core": "npm:^1.2.0"
-    "@floating-ui/dom": "npm:^1.2.0"
+    "@floating-ui/dom": "npm:^1.5.3"
     "@floating-ui/react": "npm:^0.26.2"
     "@fluentui/react-components": "npm:^9.41.0"
     "@fluentui/react-icons": "npm:^2.0.217"
