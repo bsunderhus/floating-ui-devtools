@@ -44,14 +44,28 @@ const useStyles = makeStyles({
 
 export const FluentUIMiddleware = React.memo((props: FluentUIMiddlewareData) => {
   const {
-    middlewareState: { elements, initialPlacement, middlewareData, y, x, strategy, rects, placement },
+    middlewareState: { elements, middlewareData, y, x, strategy, rects },
+    flipBoundaries,
+    initialPlacement,
+    options,
+    overflowBoundaries,
+    placement,
+    scrollParents,
   } = props;
   const styles = useStyles();
   const { theme: themeType } = useTheme();
   const theme: ThemeKeys = themeType === 'dark' ? 'monokai' : 'rjv-default';
   return (
     <>
-      {Object.entries({ initialPlacement, middlewareData, y, x, strategy, rects, placement }).map(([key, value]) => {
+      {Object.entries({
+        strategy,
+        coords: { x, y },
+        initialPlacement,
+        placement,
+        middlewareData,
+        options,
+        rects,
+      }).map(([key, value]) => {
         if (value && typeof value === 'object') {
           return (
             <JsonView
@@ -99,6 +113,54 @@ export const FluentUIMiddleware = React.memo((props: FluentUIMiddlewareData) => 
             {'<HTMLElement/>'}
           </Button>
         </div>
+        {overflowBoundaries.map((overflowBoundary, index) => {
+          return (
+            <div key={index} className={styles.buttonContainer}>
+              <span className={styles.propertyKey}>overflowBoundary[{index}] :</span>{' '}
+              <Button
+                title={`Inspect overflowBoundary ${index}`}
+                icon={<Eye20Filled />}
+                iconPosition="after"
+                appearance="subtle"
+                onClick={() => inspect(overflowBoundary)}
+              >
+                {'<HTMLElement/>'}
+              </Button>
+            </div>
+          );
+        })}
+        {flipBoundaries.map((flipBoundary, index) => {
+          return (
+            <div key={index} className={styles.buttonContainer}>
+              <span className={styles.propertyKey}>flipBoundary[{index}] :</span>{' '}
+              <Button
+                title={`Inspect flipBoundary ${index}`}
+                icon={<Eye20Filled />}
+                iconPosition="after"
+                appearance="subtle"
+                onClick={() => inspect(flipBoundary)}
+              >
+                {'<HTMLElement/>'}
+              </Button>
+            </div>
+          );
+        })}
+        {scrollParents.map((scrollParent, index) => {
+          return (
+            <div key={index} className={styles.buttonContainer}>
+              <span className={styles.propertyKey}>scrollParent[{index}] :</span>{' '}
+              <Button
+                title={`Inspect scrollParent ${index}`}
+                icon={<Eye20Filled />}
+                iconPosition="after"
+                appearance="subtle"
+                onClick={() => inspect(scrollParent)}
+              >
+                {'<HTMLElement/>'}
+              </Button>
+            </div>
+          );
+        })}
       </div>
     </>
   );

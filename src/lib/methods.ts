@@ -40,9 +40,6 @@ export const serializable = <O extends object>(object: O): { serializedData: O; 
   );
   return {
     references: references.reduce((acc, element, index) => ({ ...acc, [index]: element }), {}),
-    serializedData: {
-      ...serializedData,
-      references: references.map((_, index) => String(index)),
-    },
+    serializedData,
   };
 };
