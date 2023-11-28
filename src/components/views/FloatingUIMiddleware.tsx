@@ -1,11 +1,11 @@
 import React from 'react';
-import { inspect } from '../../../../utils/inspect';
 import JsonView, { ThemeKeys } from 'react-json-view';
-import { Button, makeStyles, shorthands } from '@fluentui/react-components';
-import { useTheme } from '../../../../hooks/useTheme';
-import { tokens } from '../../../../utils/tokens';
 import { Eye20Filled } from '@fluentui/react-icons';
-import { FluentUIMiddlewareData } from '../types';
+import { Button, makeStyles, shorthands } from '@fluentui/react-components';
+import { tokens } from '../../utils/tokens';
+import type { FloatingUI } from '../../lib';
+import { inspect } from '../../utils/inspect';
+import { useTheme } from '../../hooks/useTheme';
 
 const useStyles = makeStyles({
   buttonGroup: {
@@ -42,30 +42,14 @@ const useStyles = makeStyles({
   },
 });
 
-export const FluentUIMiddleware = React.memo((props: FluentUIMiddlewareData) => {
-  const {
-    middlewareState: { elements, middlewareData, y, x, strategy, rects },
-    flipBoundaries,
-    initialPlacement,
-    options,
-    overflowBoundaries,
-    placement,
-    scrollParents,
-  } = props;
+export const FloatingUIMiddleware = React.memo((props: FloatingUI.MiddlewareData) => {
+  const { elements, initialPlacement, middlewareData, y, x, strategy, rects, placement } = props;
   const styles = useStyles();
   const { theme: themeType } = useTheme();
   const theme: ThemeKeys = themeType === 'dark' ? 'monokai' : 'rjv-default';
   return (
     <>
-      {Object.entries({
-        strategy,
-        coords: { x, y },
-        initialPlacement,
-        placement,
-        middlewareData,
-        options,
-        rects,
-      }).map(([key, value]) => {
+      {Object.entries({ initialPlacement, middlewareData, y, x, strategy, rects, placement }).map(([key, value]) => {
         if (value && typeof value === 'object') {
           return (
             <JsonView
@@ -113,59 +97,9 @@ export const FluentUIMiddleware = React.memo((props: FluentUIMiddlewareData) => 
             {'<HTMLElement/>'}
           </Button>
         </div>
-        {overflowBoundaries.map((overflowBoundary, index) => {
-          return (
-            <div key={index} className={styles.buttonContainer}>
-              <span className={styles.propertyKey}>overflowBoundary[{index}] :</span>{' '}
-              <Button
-                title={`Inspect overflowBoundary ${index}`}
-                icon={<Eye20Filled />}
-                iconPosition="after"
-                appearance="subtle"
-                onClick={() => inspect(overflowBoundary)}
-              >
-                {'<HTMLElement/>'}
-              </Button>
-            </div>
-          );
-        })}
-        {flipBoundaries.map((flipBoundary, index) => {
-          return (
-            <div key={index} className={styles.buttonContainer}>
-              <span className={styles.propertyKey}>flipBoundary[{index}] :</span>{' '}
-              <Button
-                title={`Inspect flipBoundary ${index}`}
-                icon={<Eye20Filled />}
-                iconPosition="after"
-                appearance="subtle"
-                onClick={() => inspect(flipBoundary)}
-              >
-                {'<HTMLElement/>'}
-              </Button>
-            </div>
-          );
-        })}
-        {scrollParents.map((scrollParent, index) => {
-          return (
-            <div key={index} className={styles.buttonContainer}>
-              <span className={styles.propertyKey}>scrollParent[{index}] :</span>{' '}
-              <Button
-                title={`Inspect scrollParent ${index}`}
-                icon={<Eye20Filled />}
-                iconPosition="after"
-                appearance="subtle"
-                onClick={() => inspect(scrollParent)}
-              >
-                {'<HTMLElement/>'}
-              </Button>
-            </div>
-          );
-        })}
       </div>
     </>
   );
 });
 
-FluentUIMiddleware.displayName = 'FluentUIMiddleware';
-
-export default FluentUIMiddleware;
+export default FloatingUIMiddleware;

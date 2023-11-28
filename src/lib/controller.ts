@@ -1,6 +1,6 @@
 import { CONTROLLER } from './constants';
 import { getElementMetadata, isElementWithMetadata } from './methods';
-import { Controller } from './types';
+import type { Controller } from './types';
 
 export const createController = (): Controller => {
   const controller: Controller = {

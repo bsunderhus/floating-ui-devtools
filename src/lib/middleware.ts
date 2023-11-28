@@ -1,8 +1,7 @@
 import type { Middleware, MiddlewareState } from '@floating-ui/dom';
 import { injectController } from './controller';
 import { assignMetadata, serializable } from './methods';
-import { MiddlewareData } from './types';
-import { middlewareDataCallback as floatingUIMiddlewareDataCallback } from './views/FloatingUI/methods/callback';
+import type { FloatingUI, MiddlewareData } from './types';
 
 export const middleware = (
   targetDocument: Document,
@@ -17,4 +16,9 @@ export const middleware = (
     });
     return {};
   },
+});
+
+const floatingUIMiddlewareDataCallback = (state: MiddlewareState): FloatingUI.MiddlewareData => ({
+  ...state,
+  type: 'FloatingUIMiddleware',
 });
