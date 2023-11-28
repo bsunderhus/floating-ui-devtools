@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CONTROLLER, ELEMENT_METADATA } from '../lib/constants';
-import { Metadata } from '../lib/types';
+import type { Metadata } from '../lib/types';
 
 export type SerializedDataContextValue = [
   serializedData: Metadata['serializedData'] | null,

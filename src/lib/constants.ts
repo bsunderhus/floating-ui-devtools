@@ -1,3 +1,5 @@
-export const CONTROLLER = '__FUI_CONTROLLER__';
+export const CONTROLLER = '__FUIDT_CONTROLLER__';
 
-export const ELEMENT_METADATA = '__FUI_ELEMENT_METADATA__';
+export const ELEMENT_METADATA = '__FUIDT_ELEMENT_METADATA__';
+
+export const HTML_REFERENCE = '__FUIDT_HTML_REFERENCE__';
