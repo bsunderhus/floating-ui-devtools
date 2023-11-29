@@ -40,6 +40,18 @@ export const UnsupportedElementMessage = React.memo(() => {
           Tooltip
         </Link>
         ,{' '}
+        <Link href="https://react.fluentui.dev/?path=/docs/components-dropdown--default" target="_blank">
+          Dropdown
+        </Link>
+        ,{' '}
+        <Link href="https://react.fluentui.dev/?path=/docs/components-combobox--default" target="_blank">
+          Combobox
+        </Link>
+        ,{' '}
+        <Link href="https://react.fluentui.dev/?path=/docs/compat-components-datepicker--default" target="_blank">
+          DatePicker
+        </Link>
+        ,{' '}
         <Link href="https://react.fluentui.dev/?path=/docs/components-menu-menu--default" target="_blank">
           Menu
         </Link>{' '}

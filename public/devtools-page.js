@@ -1,3 +1,3 @@
-chrome.devtools.panels.elements.createSidebarPane('Fluent UI positioning', sidebarPanel => {
+chrome.devtools.panels.elements.createSidebarPane('Floating UI', sidebarPanel => {
   sidebarPanel.setPage('index.html');
 });
