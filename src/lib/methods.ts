@@ -1,28 +1,22 @@
-import type { ElementMetadata, ElementWithMetadata, Metadata, References } from './types';
-import { ELEMENT_METADATA, HTML_REFERENCE } from './constants';
+import type { ElementWithMetadata, Metadata, References, Serialized } from './types';
+import { ELEMENT_METADATA, HTML_ELEMENT_REFERENCE } from './constants';
 import { isHTMLElement } from '@fluentui/react-utilities';
 
 export const isElementWithMetadata = (element: unknown): element is ElementWithMetadata =>
   Boolean(typeof element === 'object' && element && ELEMENT_METADATA in element);
 
-export const getElementMetadata = (element: ElementWithMetadata): Metadata => element?.[ELEMENT_METADATA];
+export const getElementMetadata = (element: ElementWithMetadata): Metadata => element[ELEMENT_METADATA];
 
-export const assignMetadata = <O extends object>(object: O, metadata: Metadata): O & ElementMetadata =>
-  Object.assign<O, ElementMetadata>(object, { [ELEMENT_METADATA]: metadata });
-
-/**
- * Ensures a value is serialized,
- * by only allowing simple objects/array
- * or objects who complies the `toString` signature
- */
-export const serializable = <O extends object>(object: O): { serializedData: O; references: References } => {
-  const references: HTMLElement[] = [];
-  const serializedData: O = JSON.parse(
-    JSON.stringify(object, (_, value) => {
+export const serialize = <Data extends object>(
+  data: Data,
+): [serializedData: Serialized<Data>, references: References] => {
+  const referencesArray: HTMLElement[] = [];
+  const serializedData: Serialized<Data> = JSON.parse(
+    JSON.stringify(data, (_, value) => {
       // gather reference to all html elements
       if (isHTMLElement(value)) {
-        const index = references.push(value) - 1;
-        return `${HTML_REFERENCE}${index}`;
+        const index = referencesArray.push(value) - 1;
+        return `${HTML_ELEMENT_REFERENCE}${index}`;
       }
       if (
         typeof value === 'object' &&
@@ -38,8 +32,6 @@ export const serializable = <O extends object>(object: O): { serializedData: O; 
       return value;
     }),
   );
-  return {
-    references: references.reduce((acc, element, index) => ({ ...acc, [index]: element }), {}),
-    serializedData,
-  };
+  const references = referencesArray.reduce<References>((acc, element, index) => ({ ...acc, [index]: element }), {});
+  return [serializedData, references];
 };

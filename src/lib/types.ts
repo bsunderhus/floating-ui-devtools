@@ -1,20 +1,33 @@
-import type { CONTROLLER, ELEMENT_METADATA } from './constants';
-import type { MiddlewareState } from '@floating-ui/dom';
+import type { CONTROLLER, ELEMENT_METADATA, HTML_ELEMENT_REFERENCE } from './constants';
+import type { MiddlewareState, ReferenceElement } from '@floating-ui/dom';
 
-export type References = Record<string, HTMLElement>;
+export type Serialized<T> = T extends (infer R)[]
+  ? Serialized<R>[]
+  : T extends Function
+  ? never
+  : T extends ReferenceElement
+  ? Reference
+  : T extends object
+  ? { [P in keyof T]: Serialized<T[P]> }
+  : T;
+
+export type References = Record<string, Reference>;
+export type Reference = `${typeof HTML_ELEMENT_REFERENCE}${string}`;
 
 export type Metadata =
-  | { type: 'middleware'; serializedData: MiddlewareData; references: References }
-  | { type: 'trigger'; serializedData: TriggerData; references: References };
+  | { type: 'middleware'; serializedData: Serialized<MiddlewareData>; references: References }
+  | { type: 'trigger'; serializedData: Serialized<TriggerData>; references: References };
 
-export type ElementMetadata = { [ELEMENT_METADATA]: Metadata };
+export type ElementMetadata = {
+  [ELEMENT_METADATA]: Metadata;
+};
 
 export type ElementWithMetadata = HTMLElement & ElementMetadata;
 
 export type Controller = {
   withdraw(): void;
   select(element?: HTMLElement | null): ElementWithMetadata | null;
-  selectedElement: ElementWithMetadata | null;
+  readonly selectedElement: ElementWithMetadata | null;
 };
 
 declare global {
@@ -22,6 +35,7 @@ declare global {
     [CONTROLLER]: Controller;
   }
 }
+
 export namespace FloatingUI {
   export type MiddlewareData = MiddlewareState & {
     type: 'FloatingUIMiddleware';

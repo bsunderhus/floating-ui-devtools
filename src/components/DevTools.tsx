@@ -4,14 +4,14 @@ import { UnsupportedElementMessage } from './UnsupportedElementMessage';
 import { useSerializedData } from '../contexts/SerializedData';
 import { ErrorBoundary } from 'react-error-boundary';
 import { reload } from '../utils/reload';
-import { Data } from '../lib';
+import { Data, Serialized } from '../lib/types';
 
 export const DevTools = () => {
   const [serializedData] = useSerializedData();
   if (serializedData === null) {
     return <UnsupportedElementMessage />;
   }
-  const LazyComponent = React.lazy<React.FC<Data>>(() => import(`./views/${serializedData.type}.tsx`));
+  const LazyComponent = React.lazy<React.FC<Serialized<Data>>>(() => import(`./views/${serializedData.type}.tsx`));
   return (
     <ErrorBoundary
       fallback={

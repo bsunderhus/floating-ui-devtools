@@ -1,26 +1,29 @@
 import { CONTROLLER } from './constants';
 import { getElementMetadata, isElementWithMetadata } from './methods';
-import type { Controller } from './types';
+import type { Controller, ElementWithMetadata, Metadata } from './types';
 
 export const createController = (): Controller => {
+  let selectedElement: ElementWithMetadata | null = null;
   const controller: Controller = {
-    selectedElement: null,
-    select: (selectedElement: HTMLElement | null) => {
-      if (isElementWithMetadata(selectedElement)) {
-        controller.selectedElement = selectedElement;
-        return controller.selectedElement;
+    get selectedElement() {
+      return selectedElement;
+    },
+    select: (nextSelectedElement: HTMLElement | null) => {
+      if (isElementWithMetadata(nextSelectedElement)) {
+        selectedElement = nextSelectedElement;
+        return selectedElement;
       }
-      if (controller.selectedElement) {
-        const metadata = getElementMetadata(controller.selectedElement);
-        if (metadata.type === 'middleware' && Object.values<unknown>(metadata.references).includes(selectedElement)) {
-          return controller.selectedElement;
+      if (selectedElement && nextSelectedElement) {
+        const metadata = getElementMetadata(selectedElement);
+        if (isSelectedElementValid(metadata, nextSelectedElement)) {
+          return selectedElement;
         }
       }
       controller.withdraw();
-      return controller.selectedElement;
+      return selectedElement;
     },
     withdraw: () => {
-      controller.selectedElement = null;
+      selectedElement = null;
     },
   };
   return controller;
@@ -34,3 +37,10 @@ export const injectController = (targetDocument: Document) => {
     targetDocument.defaultView[CONTROLLER] = createController();
   }
 };
+
+export function isSelectedElementValid(metadata: Metadata, selectedElement: HTMLElement): boolean {
+  if (metadata.type === 'middleware') {
+    return Object.values<unknown>(metadata.references).includes(selectedElement);
+  }
+  return false;
+}

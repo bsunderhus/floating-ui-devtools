@@ -5,7 +5,7 @@ import { Button, makeStyles, shorthands } from '@fluentui/react-components';
 import { useTheme } from '../../hooks/useTheme';
 import { tokens } from '../../utils/tokens';
 import { Eye20Filled } from '@fluentui/react-icons';
-import type { FluentUI } from '../../lib';
+import type { FluentUI, Serialized } from '../../lib/types';
 
 const useStyles = makeStyles({
   buttonGroup: {
@@ -42,7 +42,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const FluentUIMiddleware = React.memo((props: FluentUI.MiddlewareData) => {
+export const FluentUIMiddleware = React.memo((props: Serialized<FluentUI.MiddlewareData>) => {
   const {
     middlewareState: { elements, middlewareData, y, x, strategy, rects },
     flipBoundaries,

@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { CONTROLLER, ELEMENT_METADATA } from '../lib/constants';
-import type { Metadata } from '../lib/types';
+import type { Serialized, Data } from '../lib/types';
 
-export type SerializedDataContextValue = [
-  serializedData: Metadata['serializedData'] | null,
-  recalculateData: () => void,
-];
+export type SerializedDataContextValue = [serializedData: Serialized<Data> | null, recalculateData: () => void];
 
 // eslint-disable-next-line react-refresh/only-export-components
 const SerializedDataContext = React.createContext<SerializedDataContextValue | null>(null);
@@ -21,10 +18,10 @@ export function useSerializedData() {
 }
 
 export function useSerializedDataContextValue(): SerializedDataContextValue {
-  const [serializedData, setSerializedData] = React.useState<Metadata['serializedData'] | null>(null);
+  const [serializedData, setSerializedData] = React.useState<Serialized<Data> | null>(null);
 
   const recalculateSerializedData = React.useCallback(() => {
-    chrome.devtools.inspectedWindow.eval<Metadata['serializedData'] | null | undefined>(
+    chrome.devtools.inspectedWindow.eval<Serialized<Data> | null | undefined>(
       `$0?.ownerDocument?.defaultView?.['${CONTROLLER}']?.select($0)?.['${ELEMENT_METADATA}']?.serializedData;`,
       {},
       (nextSerializedData = null, error) => {
