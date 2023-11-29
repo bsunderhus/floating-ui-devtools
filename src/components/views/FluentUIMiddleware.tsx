@@ -5,7 +5,8 @@ import { Button, makeStyles, shorthands } from '@fluentui/react-components';
 import { useTheme } from '../../hooks/useTheme';
 import { tokens } from '../../utils/tokens';
 import { Eye20Filled } from '@fluentui/react-icons';
-import type { FluentUI, Serialized } from '../../lib/types';
+import { Serialized } from '../../lib/utils/serialize';
+import { FluentUI } from '../../lib';
 
 const useStyles = makeStyles({
   buttonGroup: {

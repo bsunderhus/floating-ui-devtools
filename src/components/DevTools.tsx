@@ -4,7 +4,8 @@ import { UnsupportedElementMessage } from './UnsupportedElementMessage';
 import { useSerializedData } from '../contexts/SerializedData';
 import { ErrorBoundary } from 'react-error-boundary';
 import { reload } from '../utils/reload';
-import { Data, Serialized } from '../lib/types';
+import { Data } from '../lib/data-types';
+import { Serialized } from '../lib/utils/serialize';
 
 export const DevTools = () => {
   const [serializedData] = useSerializedData();

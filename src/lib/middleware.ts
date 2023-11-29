@@ -1,8 +1,9 @@
 import type { Middleware, MiddlewareState } from '@floating-ui/dom';
-import { injectController } from './controller';
-import { serialize } from './methods';
-import type { ElementMetadata, FloatingUI, MiddlewareData } from './types';
-import { ELEMENT_METADATA } from './constants';
+import { injectController } from './utils/controller';
+import { ELEMENT_METADATA } from './utils/constants';
+import { serialize } from './utils/serialize';
+import type { ElementMetadata } from './types';
+import type { FloatingUI, MiddlewareData } from './data-types';
 
 export const middleware = (
   targetDocument: Document,

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { CONTROLLER, ELEMENT_METADATA } from '../lib/constants';
-import type { Serialized, Data } from '../lib/types';
+import type { Data } from '../lib/data-types';
+import { Serialized } from '../lib/utils/serialize';
+import { CONTROLLER, ELEMENT_METADATA } from '../lib/utils/constants';
 
 export type SerializedDataContextValue = [serializedData: Serialized<Data> | null, recalculateData: () => void];
 

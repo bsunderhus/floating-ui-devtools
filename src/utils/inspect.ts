@@ -1,12 +1,9 @@
-import type { ReferenceElement } from '@floating-ui/dom';
-import { CONTROLLER, ELEMENT_METADATA, HTML_ELEMENT_REFERENCE } from '../lib/constants';
-import type { Serialized } from '../lib/types';
+import { CONTROLLER, ELEMENT_METADATA } from '../lib/utils/constants';
+import type { ReferenceId } from '../lib/utils/references';
 
-export function inspect(element: Serialized<ReferenceElement>) {
-  const reference = element.replace(HTML_ELEMENT_REFERENCE, '');
-  console.log({ element, reference, HTML_ELEMENT_REFERENCE });
+export function inspect(referenceId: ReferenceId) {
   chrome.devtools.inspectedWindow.eval(
-    `void inspect($0.ownerDocument.defaultView['${CONTROLLER}'].selectedElement['${ELEMENT_METADATA}'].references['${reference}']);`,
+    `void inspect($0.ownerDocument.defaultView['${CONTROLLER}'].selectedElement['${ELEMENT_METADATA}'].references.get('${referenceId}'));`,
     {},
     console.log,
   );

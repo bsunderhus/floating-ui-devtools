@@ -3,9 +3,10 @@ import JsonView, { ThemeKeys } from 'react-json-view';
 import { Eye20Filled } from '@fluentui/react-icons';
 import { Button, makeStyles, shorthands } from '@fluentui/react-components';
 import { tokens } from '../../utils/tokens';
-import type { FloatingUI, Serialized } from '../../lib/types';
 import { inspect } from '../../utils/inspect';
 import { useTheme } from '../../hooks/useTheme';
+import { Serialized } from '../../lib/utils/serialize';
+import { FloatingUI } from '../../lib';
 
 const useStyles = makeStyles({
   buttonGroup: {

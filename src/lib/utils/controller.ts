@@ -1,6 +1,14 @@
-import { CONTROLLER } from './constants';
-import { getElementMetadata, isElementWithMetadata } from './methods';
-import type { Controller, ElementWithMetadata, Metadata } from './types';
+import { CONTROLLER, ELEMENT_METADATA } from './constants';
+import type { ElementWithMetadata, Metadata } from '../types';
+
+export type Controller = {
+  withdraw(): void;
+  select(element?: HTMLElement | null): ElementWithMetadata | null;
+  readonly selectedElement: ElementWithMetadata | null;
+};
+
+const isElementWithMetadata = (element: unknown): element is ElementWithMetadata =>
+  Boolean(typeof element === 'object' && element && ELEMENT_METADATA in element);
 
 export const createController = (): Controller => {
   let selectedElement: ElementWithMetadata | null = null;
@@ -14,7 +22,7 @@ export const createController = (): Controller => {
         return selectedElement;
       }
       if (selectedElement && nextSelectedElement) {
-        const metadata = getElementMetadata(selectedElement);
+        const metadata = selectedElement[ELEMENT_METADATA];
         if (isSelectedElementValid(metadata, nextSelectedElement)) {
           return selectedElement;
         }
@@ -40,7 +48,7 @@ export const injectController = (targetDocument: Document) => {
 
 export function isSelectedElementValid(metadata: Metadata, selectedElement: HTMLElement): boolean {
   if (metadata.type === 'middleware') {
-    return Object.values<unknown>(metadata.references).includes(selectedElement);
+    return metadata.references.has(selectedElement);
   }
   return false;
 }
