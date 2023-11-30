@@ -5,7 +5,7 @@ import * as devtools from '../lib';
 import { FloatingUIMiddleware } from '../components/Views/FloatingUIMiddleware';
 import { Serialized } from '../lib/utils/serialize';
 import { generateReferenceId } from '../lib/utils/references';
-import { FluentProviderDecorator } from './decorators';
+import { PanelDecorator } from './decorators';
 
 export default {
   title: 'Floating UI',
@@ -62,4 +62,4 @@ export const Panel = () => {
   return <FloatingUIMiddleware {...data} />;
 };
 
-Panel.decorators = [FluentProviderDecorator];
+Panel.decorators = [PanelDecorator];

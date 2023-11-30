@@ -1,11 +1,27 @@
-import { useFloating, useClick, useInteractions } from '@floating-ui/react';
 import type { Meta } from '@storybook/react';
-import { useState } from 'react';
 import * as devtools from '../lib';
 import { Serialized } from '../lib/utils/serialize';
 import { generateReferenceId } from '../lib/utils/references';
 import FluentUIMiddleware from '../components/Views/FluentUIMiddleware';
-import { FluentProviderDecorator } from './decorators';
+import { FluentDecorator, PanelDecorator } from './decorators';
+import { makeStyles, Button, Popover, PopoverSurface, PopoverTrigger } from '@fluentui/react-components';
+
+const useStyles = makeStyles({
+  contentHeader: {
+    marginTop: '0',
+  },
+});
+
+const ExampleContent = () => {
+  const styles = useStyles();
+  return (
+    <div>
+      <h3 className={styles.contentHeader}>Popover content</h3>
+
+      <div>This is some popover content</div>
+    </div>
+  );
+};
 
 export default {
   title: 'Fluent UI',
@@ -14,43 +30,19 @@ export default {
   },
 } satisfies Meta;
 
-export const Default = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export const Default = () => (
+  <Popover>
+    <PopoverTrigger disableButtonEnhancement>
+      <Button>Open Popover</Button>
+    </PopoverTrigger>
 
-  const { refs, floatingStyles, context } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    middleware: [
-      devtools.middleware(document, state => ({
-        type: 'FluentUIMiddleware',
-        middlewareState: state,
-        flipBoundaries: [],
-        scrollParents: [document.body],
-        overflowBoundaries: [],
-        options: {},
-        initialPlacement: { position: 'unknown', alignment: 'unknown' },
-        placement: { position: 'unknown', alignment: 'unknown' },
-      })),
-    ],
-  });
+    <PopoverSurface tabIndex={-1}>
+      <ExampleContent />
+    </PopoverSurface>
+  </Popover>
+);
 
-  const click = useClick(context);
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([click]);
-
-  return (
-    <>
-      <button ref={refs.setReference} {...getReferenceProps()}>
-        Reference element
-      </button>
-      {isOpen && (
-        <div ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()}>
-          Floating element
-        </div>
-      )}
-    </>
-  );
-};
+Default.decorators = [FluentDecorator];
 
 export const Panel = () => {
   const data: Serialized<devtools.FluentUI.MiddlewareData> = {
@@ -79,4 +71,4 @@ export const Panel = () => {
   return <FluentUIMiddleware {...data} />;
 };
 
-Panel.decorators = [FluentProviderDecorator];
+Panel.decorators = [PanelDecorator];

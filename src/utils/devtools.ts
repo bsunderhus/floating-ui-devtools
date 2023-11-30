@@ -41,7 +41,7 @@ const devtools =
         inspect: noop,
         debug: noop,
         reload: noop,
-        getTheme: () => 'dark' as const,
+        getTheme: () => 'default' as const,
         addSelectionChangeListener: noop,
         removeSelectionChangeListener: noop,
       };
