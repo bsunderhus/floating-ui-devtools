@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Data } from '../lib/data-types';
 import { Serialized } from '../lib/utils/serialize';
-import { CONTROLLER, ELEMENT_METADATA } from '../lib/utils/constants';
+import { devtools } from '../utils/devtools';
 
 export type SerializedDataContextValue = [serializedData: Serialized<Data> | null, recalculateData: () => void];
 
@@ -21,22 +21,13 @@ export function useSerializedData() {
 export function useSerializedDataContextValue(): SerializedDataContextValue {
   const [serializedData, setSerializedData] = React.useState<Serialized<Data> | null>(null);
 
-  const recalculateSerializedData = React.useCallback(() => {
-    chrome.devtools.inspectedWindow.eval<Serialized<Data> | null | undefined>(
-      `$0?.ownerDocument?.defaultView?.['${CONTROLLER}']?.select($0)?.['${ELEMENT_METADATA}']?.serializedData;`,
-      {},
-      (nextSerializedData = null, error) => {
-        console.log(nextSerializedData, error);
-        setSerializedData(nextSerializedData);
-      },
-    );
-  }, []);
+  const recalculateSerializedData = React.useCallback(async () => setSerializedData(await devtools.select()), []);
 
   React.useEffect(() => {
     recalculateSerializedData();
-    chrome.devtools.panels.elements.onSelectionChanged.addListener(recalculateSerializedData);
+    devtools.addSelectionChangeListener(recalculateSerializedData);
     return () => {
-      chrome.devtools.panels.elements.onSelectionChanged.removeListener(recalculateSerializedData);
+      devtools.removeSelectionChangeListener(recalculateSerializedData);
     };
   }, [recalculateSerializedData]);
 

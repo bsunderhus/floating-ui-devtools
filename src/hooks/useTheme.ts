@@ -1,6 +1,7 @@
 import React from 'react';
 import { tokens } from '@fluentui/react-components';
 import { ColorTokens } from '../utils/tokens';
+import { devtools } from '../utils/devtools';
 
 const themeToCSSVariables = (theme: ColorTokens): React.CSSProperties =>
   Object.fromEntries(Object.entries(theme).map(([token, value]) => [`--pdt-${token}`, value]));
@@ -18,7 +19,7 @@ export const darkTheme = themeToCSSVariables({
 });
 
 export function useTheme() {
-  const theme = chrome.devtools.panels.themeName === 'dark' ? darkTheme : lightTheme;
+  const theme = devtools.getTheme() === 'dark' ? darkTheme : lightTheme;
   const rootStyle: React.CSSProperties = {
     ...theme,
     color: tokens.colorNeutralForeground1,
@@ -29,5 +30,5 @@ export function useTheme() {
     display: 'flex',
     flexDirection: 'column',
   };
-  return { rootStyle, theme: chrome.devtools.panels.themeName };
+  return { rootStyle, theme: devtools.getTheme() };
 }

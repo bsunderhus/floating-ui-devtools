@@ -1,18 +1,20 @@
 import type { CONTROLLER, ELEMENT_METADATA } from './utils/constants';
 import type { References } from './utils/references';
-import type { Controller } from './utils/controller';
-import { Serialized } from './utils/serialize';
-import { MiddlewareData, TriggerData } from './data-types';
+import type { Controller } from './controller';
+import type { Serialized } from './utils/serialize';
+import type { MiddlewareData, TriggerData } from './data-types';
 
-export type Metadata =
-  | { type: 'middleware'; serializedData: Serialized<MiddlewareData>; references: References }
-  | { type: 'trigger'; serializedData: Serialized<TriggerData>; references: References };
-
-export type ElementMetadata = {
-  [ELEMENT_METADATA]: Metadata;
+type MetadataType<Type extends string, Data extends object> = {
+  type: Type;
+  serializedData: Serialized<Data>;
+  references: References;
 };
 
-export type ElementWithMetadata = HTMLElement & ElementMetadata;
+export type Metadata = MetadataType<'middleware', MiddlewareData> | MetadataType<'trigger', TriggerData>;
+
+export interface HTMLElementWithMetadata extends HTMLElement {
+  [ELEMENT_METADATA]: Metadata;
+}
 
 declare global {
   interface Window {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { inspect } from '../../utils/inspect';
 import JsonView, { ThemeKeys } from 'react-json-view';
 import { Button, makeStyles, shorthands } from '@fluentui/react-components';
 import { useTheme } from '../../hooks/useTheme';
@@ -7,6 +6,7 @@ import { tokens } from '../../utils/tokens';
 import { Eye20Filled } from '@fluentui/react-icons';
 import { Serialized } from '../../lib/utils/serialize';
 import { FluentUI } from '../../lib';
+import { devtools } from '../../utils/devtools';
 
 const useStyles = makeStyles({
   buttonGroup: {
@@ -70,6 +70,7 @@ export const FluentUIMiddleware = React.memo((props: Serialized<FluentUI.Middlew
         if (value && typeof value === 'object') {
           return (
             <JsonView
+              key={key}
               name={key}
               indentWidth={2}
               collapsed={true}
@@ -84,7 +85,7 @@ export const FluentUIMiddleware = React.memo((props: Serialized<FluentUI.Middlew
           );
         }
         return (
-          <div className={styles.keyValueContainer}>
+          <div key={key} className={styles.keyValueContainer}>
             <span className={styles.propertyKey}>{key} :</span> <span className={styles.string}>"{value}"</span>
           </div>
         );
@@ -97,7 +98,7 @@ export const FluentUIMiddleware = React.memo((props: Serialized<FluentUI.Middlew
             icon={<Eye20Filled />}
             iconPosition="after"
             appearance="subtle"
-            onClick={() => inspect(elements.floating)}
+            onClick={() => devtools.inspect(elements.floating)}
           >
             {'<HTMLElement/>'}
           </Button>
@@ -109,7 +110,7 @@ export const FluentUIMiddleware = React.memo((props: Serialized<FluentUI.Middlew
             icon={<Eye20Filled />}
             iconPosition="after"
             appearance="subtle"
-            onClick={() => inspect(elements.reference)}
+            onClick={() => devtools.inspect(elements.reference)}
           >
             {'<HTMLElement/>'}
           </Button>
@@ -123,7 +124,7 @@ export const FluentUIMiddleware = React.memo((props: Serialized<FluentUI.Middlew
                 icon={<Eye20Filled />}
                 iconPosition="after"
                 appearance="subtle"
-                onClick={() => inspect(overflowBoundary)}
+                onClick={() => devtools.inspect(overflowBoundary)}
               >
                 {'<HTMLElement/>'}
               </Button>
@@ -139,7 +140,7 @@ export const FluentUIMiddleware = React.memo((props: Serialized<FluentUI.Middlew
                 icon={<Eye20Filled />}
                 iconPosition="after"
                 appearance="subtle"
-                onClick={() => inspect(flipBoundary)}
+                onClick={() => devtools.inspect(flipBoundary)}
               >
                 {'<HTMLElement/>'}
               </Button>
@@ -155,7 +156,7 @@ export const FluentUIMiddleware = React.memo((props: Serialized<FluentUI.Middlew
                 icon={<Eye20Filled />}
                 iconPosition="after"
                 appearance="subtle"
-                onClick={() => inspect(scrollParent)}
+                onClick={() => devtools.inspect(scrollParent)}
               >
                 {'<HTMLElement/>'}
               </Button>

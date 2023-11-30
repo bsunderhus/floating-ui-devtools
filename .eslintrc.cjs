@@ -11,6 +11,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
+    'no-restricted-globals': ['error', { name: 'chrome', message: 'Use devtools instead' }],
     'no-undef': 'off',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'off',

@@ -1,8 +1,8 @@
 import type { Middleware, MiddlewareState } from '@floating-ui/dom';
-import { injectController } from './utils/controller';
+import { injectController } from './controller';
 import { ELEMENT_METADATA } from './utils/constants';
 import { serialize } from './utils/serialize';
-import type { ElementMetadata } from './types';
+import type { Metadata } from './types';
 import type { FloatingUI, MiddlewareData } from './data-types';
 
 export const middleware = (
@@ -13,7 +13,7 @@ export const middleware = (
   fn: (state: MiddlewareState) => {
     injectController(targetDocument);
     const [serializedData, references] = serialize(middlewareDataCallback(state));
-    Object.assign<HTMLElement, ElementMetadata>(state.elements.floating, {
+    Object.assign<HTMLElement, { [ELEMENT_METADATA]: Metadata }>(state.elements.floating, {
       [ELEMENT_METADATA]: { references, serializedData, type: 'middleware' },
     });
     return {};

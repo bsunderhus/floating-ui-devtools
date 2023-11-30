@@ -1,7 +1,7 @@
 import type { MiddlewareState } from '@floating-ui/dom';
 
 export namespace FloatingUI {
-  export type MiddlewareData = MiddlewareState & {
+  export type MiddlewareData = Omit<MiddlewareState, 'platform'> & {
     type: 'FloatingUIMiddleware';
   };
 }
@@ -10,7 +10,7 @@ export namespace FluentUI {
   export type MiddlewareData = {
     type: 'FluentUIMiddleware';
     options: object;
-    middlewareState: MiddlewareState;
+    middlewareState: Omit<MiddlewareState, 'platform'>;
     placement: { position: string; alignment?: string };
     initialPlacement: { position: string; alignment?: string };
     flipBoundaries: HTMLElement[];

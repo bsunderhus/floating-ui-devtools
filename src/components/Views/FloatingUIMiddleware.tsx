@@ -2,11 +2,11 @@ import React from 'react';
 import JsonView, { ThemeKeys } from 'react-json-view';
 import { Eye20Filled } from '@fluentui/react-icons';
 import { Button, makeStyles, shorthands } from '@fluentui/react-components';
-import { tokens } from '../../utils/tokens';
-import { inspect } from '../../utils/inspect';
 import { useTheme } from '../../hooks/useTheme';
 import { Serialized } from '../../lib/utils/serialize';
 import { FloatingUI } from '../../lib';
+import { tokens } from '../../utils/tokens';
+import { devtools } from '../../utils/devtools';
 
 const useStyles = makeStyles({
   buttonGroup: {
@@ -54,6 +54,7 @@ export const FloatingUIMiddleware = React.memo((props: Serialized<FloatingUI.Mid
         if (value && typeof value === 'object') {
           return (
             <JsonView
+              key={key}
               name={key}
               indentWidth={2}
               collapsed={true}
@@ -68,7 +69,7 @@ export const FloatingUIMiddleware = React.memo((props: Serialized<FloatingUI.Mid
           );
         }
         return (
-          <div className={styles.keyValueContainer}>
+          <div key={key} className={styles.keyValueContainer}>
             <span className={styles.propertyKey}>{key} :</span> <span className={styles.string}>"{value}"</span>
           </div>
         );
@@ -81,7 +82,7 @@ export const FloatingUIMiddleware = React.memo((props: Serialized<FloatingUI.Mid
             icon={<Eye20Filled />}
             iconPosition="after"
             appearance="subtle"
-            onClick={() => inspect(elements.floating)}
+            onClick={() => devtools.inspect(elements.floating)}
           >
             {'<HTMLElement/>'}
           </Button>
@@ -93,7 +94,7 @@ export const FloatingUIMiddleware = React.memo((props: Serialized<FloatingUI.Mid
             icon={<Eye20Filled />}
             iconPosition="after"
             appearance="subtle"
-            onClick={() => inspect(elements.reference)}
+            onClick={() => devtools.inspect(elements.reference)}
           >
             {'<HTMLElement/>'}
           </Button>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Tooltip, makeStyles, shorthands, tokens } from '@fluentui/react-components';
 import { ArrowReset24Filled, Bug24Filled } from '@fluentui/react-icons';
 import { useSerializedData } from '../contexts/SerializedData';
-import { debug } from '../utils/debug';
+import { devtools } from '../utils/devtools';
 
 const useStyles = makeStyles({
   aside: {
@@ -28,7 +28,7 @@ export const SidePanel = React.memo(() => {
         />
       </Tooltip>
       <Tooltip relationship="label" content="Debug">
-        <Button onClick={debug} appearance="secondary" icon={<Bug24Filled />} iconPosition="after" />
+        <Button onClick={devtools.debug} appearance="secondary" icon={<Bug24Filled />} iconPosition="after" />
       </Tooltip>
     </aside>
   );

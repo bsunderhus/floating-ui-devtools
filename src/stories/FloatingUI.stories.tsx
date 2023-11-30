@@ -2,6 +2,10 @@ import { useFloating, useClick, useInteractions } from '@floating-ui/react';
 import type { Meta } from '@storybook/react';
 import { useState } from 'react';
 import * as devtools from '../lib';
+import { FloatingUIMiddleware } from '../components/Views/FloatingUIMiddleware';
+import { Serialized } from '../lib/utils/serialize';
+import { generateReferenceId } from '../lib/utils/references';
+import { FluentProviderDecorator } from './decorators';
 
 export default {
   title: 'Floating UI',
@@ -25,6 +29,7 @@ export const Default = () => {
 
   return (
     <>
+      {/* <button>before</button> */}
       <button ref={refs.setReference} {...getReferenceProps()}>
         Reference element
       </button>
@@ -33,6 +38,28 @@ export const Default = () => {
           Floating element
         </div>
       )}
+      {/* <button>after</button> */}
     </>
   );
 };
+
+export const Panel = () => {
+  const data: Serialized<devtools.FloatingUI.MiddlewareData> = {
+    elements: { floating: generateReferenceId(), reference: generateReferenceId() },
+    x: 0,
+    y: 0,
+    type: 'FloatingUIMiddleware',
+    strategy: 'absolute',
+    rects: {
+      floating: { x: 0, y: 0, width: 0, height: 0 },
+      reference: { x: 0, y: 0, width: 0, height: 0 },
+    },
+    placement: 'bottom',
+    initialPlacement: 'bottom-end',
+    middlewareData: {},
+  };
+
+  return <FloatingUIMiddleware {...data} />;
+};
+
+Panel.decorators = [FluentProviderDecorator];

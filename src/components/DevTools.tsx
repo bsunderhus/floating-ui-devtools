@@ -3,22 +3,22 @@ import { Button, Text } from '@fluentui/react-components';
 import { UnsupportedElementMessage } from './UnsupportedElementMessage';
 import { useSerializedData } from '../contexts/SerializedData';
 import { ErrorBoundary } from 'react-error-boundary';
-import { reload } from '../utils/reload';
 import { Data } from '../lib/data-types';
 import { Serialized } from '../lib/utils/serialize';
+import { devtools } from '../utils/devtools';
 
 export const DevTools = () => {
   const [serializedData] = useSerializedData();
   if (serializedData === null) {
     return <UnsupportedElementMessage />;
   }
-  const LazyComponent = React.lazy<React.FC<Serialized<Data>>>(() => import(`./views/${serializedData.type}.tsx`));
+  const LazyComponent = React.lazy<React.FC<Serialized<Data>>>(() => import(`./Views/${serializedData.type}.tsx`));
   return (
     <ErrorBoundary
       fallback={
         <>
           <Text as="p">⚠️Something went wrong with '{serializedData.type}' module </Text>
-          <Button onClick={reload} autoFocus appearance="primary">
+          <Button onClick={devtools.reload} autoFocus appearance="primary">
             Reload
           </Button>
         </>
