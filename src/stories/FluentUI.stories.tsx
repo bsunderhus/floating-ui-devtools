@@ -3,7 +3,7 @@ import * as devtools from '../lib';
 import { Serialized } from '../lib/utils/serialize';
 import { generateReferenceId } from '../lib/utils/references';
 import FluentUIMiddleware from '../components/Views/FluentUIMiddleware';
-import { FluentDecorator, PanelDecorator } from './decorators';
+import { PanelDecorator } from './decorators';
 import { makeStyles, Button, Popover, PopoverSurface, PopoverTrigger } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
@@ -41,8 +41,6 @@ export const Default = () => (
     </PopoverSurface>
   </Popover>
 );
-
-Default.decorators = [FluentDecorator];
 
 export const Panel = () => {
   const data: Serialized<devtools.FluentUI.MiddlewareData> = {

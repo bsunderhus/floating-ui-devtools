@@ -1,36 +1,20 @@
-import { FluentProvider, webDarkTheme, webLightTheme } from '@fluentui/react-components';
-import { useTheme } from '../hooks/useTheme';
+import { makeStyles, shorthands } from '@fluentui/react-components';
+
+const useStyles = makeStyles({
+  root: {
+    height: '500px',
+    overflowY: 'auto',
+    ...shorthands.padding('20px'),
+    ...shorthands.borderRadius('20px'),
+    ...shorthands.border('2px', 'dashed', 'black'),
+  },
+});
 
 export const PanelDecorator = (Story: React.ElementType) => {
-  const { rootStyle, theme } = useTheme();
-
+  const classes = useStyles();
   return (
-    <FluentProvider
-      style={{
-        ...rootStyle,
-        height: 500,
-        width: 300,
-        padding: 20,
-        borderRadius: 20,
-        overflow: 'auto',
-        border: 'black dashed',
-      }}
-      theme={theme === 'dark' ? webDarkTheme : webLightTheme}
-    >
+    <div className={classes.root}>
       <Story />
-    </FluentProvider>
-  );
-};
-
-export const FluentDecorator = (Story: React.ElementType) => {
-  const { rootStyle, theme } = useTheme();
-
-  return (
-    <FluentProvider
-      style={{ ...rootStyle, alignItems: 'center' }}
-      theme={theme === 'dark' ? webDarkTheme : webLightTheme}
-    >
-      <Story />
-    </FluentProvider>
+    </div>
   );
 };
