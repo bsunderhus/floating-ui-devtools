@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      'floating-ui-devtools': './lib/floating-ui-devtools.js',
+      'floating-ui-devtools': './src/lib/index.ts',
     },
   },
 });
