@@ -1,0 +1,40 @@
+{
+  "name": "@floating-ui-devtools/extension",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "type-check": "tsc",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "devDependencies": {
+    "@floating-ui-devtools/core": "*",
+    "@floating-ui-devtools/tsconfig": "*",
+    "@floating-ui/dom": ">=1.0.0 <2.0.0",
+    "@floating-ui/react": "^0.26.2",
+    "@fluentui/react-components": "^9.42.0",
+    "@fluentui/react-icons": "^2.0.223",
+    "@storybook/addon-essentials": "^7.5.3",
+    "@storybook/addon-interactions": "^7.5.3",
+    "@storybook/addon-links": "^7.5.3",
+    "@storybook/manager-api": "^7.6.1",
+    "@storybook/react": "^7.5.3",
+    "@storybook/react-vite": "^7.5.3",
+    "@storybook/theming": "^7.6.1",
+    "@types/chrome": "^0.0.251",
+    "@types/react": "^17",
+    "@types/react-dom": "^17",
+    "@vitejs/plugin-react": "^4.0.3",
+    "floating-ui-devtools": "*",
+    "react": "^17",
+    "react-dom": "^17",
+    "react-error-boundary": "^4.0.11",
+    "react-json-view": "^1.21.3",
+    "storybook": "^7.5.3",
+    "typescript": "5.0.4",
+    "vite": "^4.4.5"
+  }
+}

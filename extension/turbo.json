@@ -1,0 +1,18 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "pipeline": {
+    "build": {
+      "outputs": ["dist"],
+      "dependsOn": ["^build", "type-check"],
+      "inputs": ["src/**/*.tsx", "src/**/*.ts", "!src/**/*.stories.tsx", "tsconfig.json", "tsconfig.node.json"]
+    },
+    "storybook": {
+      "dependsOn": [],
+      "inputs": [".storybook", "src"]
+    },
+    "type-check": {
+      "inputs": ["tsconfig.json", "tsconfig.node.json", "../packages/tsconfig/*.json"]
+    }
+  }
+}

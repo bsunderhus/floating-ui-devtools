@@ -1,0 +1,8 @@
+{
+  "extends": "@floating-ui-devtools/tsconfig/base.json",
+  "compilerOptions": {
+    "composite": true,
+    "types": ["node"]
+  },
+  "files": ["vite.config.ts"]
+}
