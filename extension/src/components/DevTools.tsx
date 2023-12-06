@@ -1,18 +1,13 @@
 import React from 'react';
 import { Button, Text } from '@fluentui/react-components';
-import { UnsupportedElementMessage } from './UnsupportedElementMessage';
-import { useSerializedData } from '../contexts/SerializedData';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Data } from 'floating-ui-devtools';
-import type { Serialized } from '@floating-ui-devtools/core';
+import { useSerializedData } from '../contexts/SerializedData';
 import { devtools } from '../utils/devtools';
+import { LazyViews } from './Views';
 
 export const DevTools = () => {
   const [serializedData] = useSerializedData();
-  if (serializedData === null) {
-    return <UnsupportedElementMessage />;
-  }
-  const LazyComponent = React.lazy<React.FC<Serialized<Data>>>(() => import(`./Views/${serializedData.type}.tsx`));
+  const LazyView = LazyViews[serializedData.type];
   return (
     <ErrorBoundary
       fallback={
@@ -25,7 +20,7 @@ export const DevTools = () => {
       }
     >
       <React.Suspense fallback={null}>
-        <LazyComponent {...serializedData} />
+        <LazyView {...serializedData} />
       </React.Suspense>
     </ErrorBoundary>
   );

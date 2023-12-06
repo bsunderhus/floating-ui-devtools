@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const UnsupportedElementMessage = React.memo(() => {
+export const NoData = React.memo(() => {
   const styles = useStyles();
   return (
     <div className={styles.root}>
@@ -60,3 +60,7 @@ export const UnsupportedElementMessage = React.memo(() => {
     </div>
   );
 });
+
+NoData.displayName = 'NoData';
+
+export default NoData;

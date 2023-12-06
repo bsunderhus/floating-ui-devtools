@@ -3,23 +3,25 @@ import type { Data } from 'floating-ui-devtools';
 import { Serialized } from '@floating-ui-devtools/core';
 import { devtools } from '../utils/devtools';
 
-export type SerializedDataContextValue = [serializedData: Serialized<Data> | null, recalculateData: () => void];
+export type SerializedDataContextValue = [serializedData: Serialized<Data>, recalculateData: () => void];
 
 // eslint-disable-next-line react-refresh/only-export-components
 const SerializedDataContext = React.createContext<SerializedDataContextValue | null>(null);
+const serializedDataDefaultValue: SerializedDataContextValue = [
+  { type: 'NoData' },
+  () => {
+    /* noop */
+  },
+];
 
 export const { Provider: SerializedDataProvider } = SerializedDataContext;
 
-export function useSerializedData() {
-  const context = React.useContext(SerializedDataContext);
-  if (context === null) {
-    throw new Error('useSerializedData must be used within a SerializedDataProvider');
-  }
-  return context;
-}
+export const useSerializedData = (): SerializedDataContextValue => {
+  return React.useContext(SerializedDataContext) ?? serializedDataDefaultValue;
+};
 
-export function useSerializedDataContextValue(): SerializedDataContextValue {
-  const [serializedData, setSerializedData] = React.useState<Serialized<Data> | null>(null);
+export const useSerializedDataContextValue = (): SerializedDataContextValue => {
+  const [serializedData, setSerializedData] = React.useState<Serialized<Data>>({ type: 'NoData' });
 
   const recalculateSerializedData = React.useCallback(async () => setSerializedData(await devtools.select()), []);
 
@@ -32,4 +34,4 @@ export function useSerializedDataContextValue(): SerializedDataContextValue {
   }, [recalculateSerializedData]);
 
   return [serializedData, recalculateSerializedData];
-}
+};

@@ -3,8 +3,8 @@ import { makeStyles, shorthands } from '@fluentui/react-components';
 const useStyles = makeStyles({
   root: {
     height: '500px',
-    overflowY: 'auto',
-    ...shorthands.padding('20px'),
+    ...shorthands.overflow('auto'),
+    ...shorthands.padding('5px'),
     ...shorthands.borderRadius('20px'),
     ...shorthands.border('2px', 'dashed', 'black'),
   },

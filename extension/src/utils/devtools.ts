@@ -7,17 +7,17 @@ const noop = () => {};
 const devtools =
   'devtools' in globalThis.chrome
     ? {
-        select: (): Promise<Serialized<Data> | null> =>
+        select: (): Promise<Serialized<Data>> =>
           new Promise((resolve, reject) => {
             chrome.devtools.inspectedWindow.eval<Serialized<Data> | null | undefined>(
-              `$0?.ownerDocument?.defaultView?.['${CONTROLLER}']?.select($0)?.['${ELEMENT_METADATA}']?.serializedData;`,
+              `$0?.ownerDocument?.defaultView?.['${CONTROLLER}']?.select($0)?.['${ELEMENT_METADATA}']?.serializedData`,
               {},
-              (nextSerializedData = null, error) => {
+              (nextSerializedData, error) => {
                 if (error) {
                   reject(error);
                   return;
                 }
-                resolve(nextSerializedData);
+                resolve(nextSerializedData ?? { type: 'NoData' });
               },
             );
           }),
@@ -34,7 +34,7 @@ const devtools =
         removeSelectionChangeListener: chrome.devtools.panels.elements.onSelectionChanged.removeListener,
       }
     : {
-        select: () => Promise.resolve(null),
+        select: () => Promise.resolve<Serialized<Data>>({ type: 'NoData' }),
         eval: noop,
         inspect: noop,
         debug: noop,
