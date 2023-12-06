@@ -2,6 +2,7 @@
   "name": "floating-ui-devtools",
   "version": "0.1.2",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "dev": "vite build --watch",
     "build": "vite build",
