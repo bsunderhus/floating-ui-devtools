@@ -1,3 +1,5 @@
+> Archiving this in favor of official Floating ui repo https://github.com/floating-ui/floating-ui
+
 # Positioning Devtools
 
 Chrome devtools panel extension for debugging the [positioning API](https://react.fluentui.dev/?path=/docs/concepts-developer-positioning-components--default)
